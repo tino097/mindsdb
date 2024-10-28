@@ -7,6 +7,7 @@ from huggingface_hub import HfApi
 from mindsdb.integrations.handlers.huggingface_handler.settings import FINETUNE_MAP
 from mindsdb.integrations.libs.base import BaseMLEngine
 from mindsdb.utilities import log
+from mindsdb.integrations.utilities.handler_utils import get_api_key
 
 logger = log.getLogger(__name__)
 
@@ -19,8 +20,10 @@ class HuggingFaceHandler(BaseMLEngine):
 
         if "using" in args:
             args = args["using"]
+        
+        api_key = get_api_key("huggingface", args)
 
-        hf_api = HfApi()
+        hf_api = HfApi(token=api_key)
 
         # check model is pytorch based
         metadata = hf_api.model_info(args["model_name"])
@@ -86,7 +89,7 @@ class HuggingFaceHandler(BaseMLEngine):
                 input_keys.remove(key)
 
         # optional keys
-        for key in ["labels", "max_length", "truncation_policy"]:
+        for key in ["labels", "max_length", "truncation_policy", "huggingface_api_key"]:
             if key in input_keys:
                 input_keys.remove(key)
 

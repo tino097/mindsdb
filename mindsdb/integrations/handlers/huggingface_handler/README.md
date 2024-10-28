@@ -20,7 +20,7 @@ Create an AI engine from the [Hugging Face handler](https://github.com/mindsdb/m
 ```sql
 CREATE ML_ENGINE huggingface_engine
 FROM huggingface
-USING huggingface_api_api_key = 'hf_xxx';
+USING huggingface_api_key = 'hf_xxx';
 ```
 
 Create a model using `huggingface_engine` as an engine.
@@ -51,6 +51,20 @@ USING
       task = 'text-classification',
       input_column = 'text',
       labels = ['ham', 'spam'];
+```
+
+> **_NOTE:_**: To use private models, you need to provide the `huggingface_api_key` parameter in the `CREATE ML_ENGINE` statement and provide same `huggingface_api_key` when creating a model.
+
+```sql
+CREATE MODEL spam_classifier
+PREDICT spam_or_ham
+USING
+      engine = 'huggingface_engine',
+      model_name = 'mrm8488/bert-tiny-finetuned-sms-spam-detection',
+      task = 'text-classification',
+      input_column = 'text',
+      labels = ['ham', 'spam'],
+      huggingface_api_key = 'hf_xxx';
 ```
 
 Query the model to get predictions.
