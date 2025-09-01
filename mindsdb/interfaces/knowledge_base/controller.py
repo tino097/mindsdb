@@ -1220,7 +1220,7 @@ class KnowledgeBaseController:
                 f"Wrong embedding provider: {params['provider']}. Available providers: {', '.join(avail_providers)}"
             )
 
-        if params["provider"] not in ("openai", "azure_openai"):
+        if params["provider"] not in ("openai", "azure_openai", "custom_openai"):
             # try use litellm
             try:
                 KnowledgeBaseTable.call_litellm_embedding(self.session, params, ["test"])
