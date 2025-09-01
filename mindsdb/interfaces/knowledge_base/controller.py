@@ -1242,6 +1242,10 @@ class KnowledgeBaseController:
             engine = "openai"
             params["provider"] = "azure"
 
+        if engine == "custom_openai":
+            engine = "openai"
+            params["provider"] = "custom_openai"
+
         if engine == "openai":
             if "question_column" not in params:
                 params["question_column"] = "content"
